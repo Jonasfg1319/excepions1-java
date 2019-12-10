@@ -51,10 +51,24 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
 	}
 	
-	public void upadateDates(Date checkIn, Date checkOut) 
+	public String upadateDates(Date checkIn, Date checkOut) 
 	{
+		 Date now = new Date();
+   	  if(checkIn.before(now) || checkOut.before(now)) 
+   	  {
+   		  return "Error in Reservation, reservation dates for update must be future"; 
+   		  
+   	  }
+   	  
+   	  if(!checkOut.after(checkIn)) {
+   		  
+   		  return "Error in Reservation, check-out date must be after check-in date";
+   	  }
+		
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		
+		return null; //se não der nenhum erro, retorna nulo. Ele precisa retornar algo 
 	}
 	@Override
 	public String toString() 
