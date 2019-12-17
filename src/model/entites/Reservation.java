@@ -20,6 +20,11 @@ public class Reservation {
 	
 	public Reservation(Integer romNumber, Date checkIn, Date checkOut) 
 	{
+		if(!checkOut.after(checkIn)) {
+	   		  
+	   		  throw new DomainException("Error in Reservation, check-out date must be after check-in date");
+	   	  }
+			
 		this.romNumber = romNumber;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
@@ -51,24 +56,24 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff,TimeUnit.MILLISECONDS);
 	}
 	
-	public String upadateDates(Date checkIn, Date checkOut) 
+	public void upadateDates(Date checkIn, Date checkOut)  
 	{
 		 Date now = new Date();
    	  if(checkIn.before(now) || checkOut.before(now)) 
    	  {
-   		  return "Error in Reservation, reservation dates for update must be future"; 
+   		 throw new DomainException("Error in Reservation, reservation dates for update must be future"); 
    		  
    	  }
    	  
    	  if(!checkOut.after(checkIn)) {
    		  
-   		  return "Error in Reservation, check-out date must be after check-in date";
+   		  throw new DomainException("Error in Reservation, check-out date must be after check-in date");
    	  }
 		
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
 		
-		return null; //se não der nenhum erro, retorna nulo. Ele precisa retornar algo 
+		
 	}
 	@Override
 	public String toString() 
